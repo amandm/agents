@@ -18,7 +18,14 @@ from react_agent.utils import load_chat_model
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Define the function that calls the model
-
+from langchain_openai import ChatOpenAI
+# llm = ChatOpenAI(
+#     model="gpt-4o-mini",
+#     temperature=0,
+#     max_tokens=None,
+#     timeout=None,
+#     max_retries=2,api_key=os.getenv('OPENAI_API_KEY')
+#     )
 
 async def call_model(
     state: State, config: RunnableConfig
@@ -38,14 +45,13 @@ async def call_model(
 
     # Initialize the model with tool binding. Change the model or add more tools here.
     # model = load_chat_model(configuration.model).bind_tools(TOOLS)
-    model = ChatGoogleGenerativeAI(
-                                model="gemini-1.5-pro",
-                                temperature=0,
-                                max_tokens=None,
-                                timeout=None,
-                                max_retries=2,
-                                # other params...
-                            ).bind_tools(TOOLS)
+    model = ChatOpenAI(
+                        model="gpt-4o-mini",
+                        temperature=0,
+                        max_tokens=None,
+                        timeout=None,
+                        max_retries=2,api_key=os.getenv('OPENAI_API_KEY')
+                        )
     # Format the system prompt. Customize this to change the agent's behavior.
     system_message = configuration.system_prompt.format(
         system_time=datetime.now(tz=timezone.utc).isoformat()
